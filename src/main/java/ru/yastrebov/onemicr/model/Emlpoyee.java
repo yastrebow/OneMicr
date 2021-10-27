@@ -2,7 +2,14 @@ package ru.yastrebov.onemicr.model;
 
 import lombok.Data;
 
-import javax.persistence.*;
+import javax.persistence.Table;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Enumerated;
+import javax.persistence.EnumType;
+import javax.persistence.GenerationType;
 import java.time.LocalDate;
 import java.util.UUID;
 
@@ -12,7 +19,7 @@ import java.util.UUID;
 public class Emlpoyee {
 
     @Id
-    @GeneratedValue(generator = "entityIdGenerator")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false, unique = true)
     private UUID id;
 
@@ -25,7 +32,7 @@ public class Emlpoyee {
     @Column(name = "age", nullable = false)
     private Integer age;
 
-    @Column(name = "experience", nullable = false)
+    @Column(name = "experience")
     private Double experience;
 
     @Column(name = "position", nullable = false, length = 100)
