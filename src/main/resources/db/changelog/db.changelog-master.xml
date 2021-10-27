@@ -16,8 +16,8 @@
         <tagDatabase tag="db_init"/>
     </changeSet>
 
-<!--    &lt;!&ndash;подключаем файл, содержащий требуемые изменения; relativeToChangelogFile - сохранение относительного пути к файлу&ndash;&gt;-->
-<!--    <include file="v-1.0/db.changelog-v.1.0.xml" relativeToChangelogFile="true"/>-->
+    <!--подключаем файл, содержащий требуемые изменения; relativeToChangelogFile - сохранение относительного пути к файлу-->
+    <include file="v-1.0/db.changelog-v.1.0.xml" relativeToChangelogFile="true"/>
 
     <changeSet id="1" author="andrey_ya">
         <!--tag - метка БД v.1.0, к которой мы можем откатиться-->
