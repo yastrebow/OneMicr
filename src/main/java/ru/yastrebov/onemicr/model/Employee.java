@@ -2,24 +2,17 @@ package ru.yastrebov.onemicr.model;
 
 import lombok.Data;
 
-import javax.persistence.Table;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Enumerated;
-import javax.persistence.EnumType;
-import javax.persistence.GenerationType;
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
 @Table(name = "employee")
 @Data
-public class Emlpoyee {
+public class Employee {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(generator = "UUID")
     @Column(name = "id", nullable = false, unique = true)
     private UUID id;
 
