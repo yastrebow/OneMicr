@@ -1,11 +1,14 @@
 package ru.yastrebov.onemicr.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.UUID;
 
+@JsonIgnoreProperties({"hibernateLazyInitializer"})
 @Entity
 @Table(name = "employee")
 @Data
@@ -13,7 +16,7 @@ public class Employee {
 
     @Id
     @GeneratedValue(generator = "UUID")
-    @Column(name = "id", nullable = false, unique = true)
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
 
     @Column(name = "first_name", nullable = false, length = 100)
