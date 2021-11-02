@@ -3,9 +3,8 @@ package ru.yastrebov.onemicr.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.yastrebov.onemicr.model.Employee;
-import ru.yastrebov.onemicr.repository.EmlpoyeeRepository;
+import ru.yastrebov.onemicr.service.EmployeeService;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,33 +14,33 @@ import java.util.UUID;
 public class EmployeeController {
 
     @Autowired
-    public EmlpoyeeRepository employeeRepository;
+    public EmployeeService employeeService;
 
     @GetMapping
     public List<Employee> getAll() {
-        return employeeRepository.findAll();
+        return employeeService.getAll();
+    }
+
+    @GetMapping("/{id}")
+    public Employee getEmployeeById(@PathVariable UUID id) {
+
+        return employeeService.getEmployeeById(id);
     }
 
     @PostMapping
     public Employee create(@RequestBody Employee emlpoyee) {
-        return employeeRepository.save(emlpoyee);
+
+        return employeeService.create(emlpoyee);
     }
 
-    @PutMapping("/{id}")
-    public Employee update(@RequestBody Employee employee, @PathVariable UUID id) {
-        if (employeeRepository.existsById(id)) {
-            return employeeRepository.save(employee);
-        } else {
-            throw new EntityNotFoundException();
-        }
+    @PatchMapping("/{id}")
+    public Employee updateByID(@RequestBody Employee employee, @PathVariable UUID id) {
+        return employeeService.updateById(employee, id);
     }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable UUID id) {
-        if (employeeRepository.existsById(id)) {
-            employeeRepository.deleteById(id);
-        } else {
-            throw new EntityNotFoundException();
-        }
+
+        employeeService.delete(id);
     }
 }
