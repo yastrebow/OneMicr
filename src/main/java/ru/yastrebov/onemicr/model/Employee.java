@@ -1,20 +1,14 @@
 package ru.yastrebov.onemicr.model;
 
-import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
-import ru.yastrebov.onemicr.model.enums.Gender;
-import ru.yastrebov.onemicr.model.enums.Position;
-import ru.yastrebov.onemicr.model.enums.Project;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.UUID;
 
-@NoArgsConstructor
-@AllArgsConstructor
-//@JsonIgnoreProperties({"hibernateLazyInitializer"})
+@JsonIgnoreProperties({"hibernateLazyInitializer"})
 @Entity
 @Table(name = "employee")
 @Data
@@ -53,7 +47,11 @@ public class Employee {
     private Gender gender;
 
  }
+    enum Position {EMPLOYEE, MANAGER, DIRECTOR}
 
+    enum Project {PROJECT1, PROJECT2, PROJECT3}
+
+    enum Gender {MALE, FEMALE, INDEFINED}
 
 
 
