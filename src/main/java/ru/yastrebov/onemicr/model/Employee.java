@@ -10,7 +10,6 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.UUID;
 
-//@JsonIgnoreProperties({"hibernateLazyInitializer"})
 @Entity
 @Table(name = "employee")
 @Data
