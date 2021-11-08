@@ -15,14 +15,14 @@ import java.util.UUID;
 @Data
 public class EmployeeDto {
 
-    UUID id;
-    String firstName;
-    String lastName;
-    Integer age;
-    Double experience;
-    Position position;
-    Project project;
-    LocalDate hireDate;
-    Gender gender;
+    private UUID id;
+    private String firstName;
+    private String lastName;
+    private  Integer age;
+    private  Double experience;
+    private  Position position;
+    private Project project;
+    private LocalDate hireDate;
+    private Gender gender;
 
 }

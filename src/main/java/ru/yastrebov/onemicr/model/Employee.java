@@ -1,9 +1,6 @@
 package ru.yastrebov.onemicr.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
 import ru.yastrebov.onemicr.model.enums.Gender;
 import ru.yastrebov.onemicr.model.enums.Position;
@@ -13,9 +10,7 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.UUID;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@JsonIgnoreProperties({"hibernateLazyInitializer"})
+//@JsonIgnoreProperties({"hibernateLazyInitializer"})
 @Entity
 @Table(name = "employee")
 @Data

@@ -3,7 +3,7 @@ package ru.yastrebov.onemicr.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.yastrebov.onemicr.dto.EmployeeDto;
-import ru.yastrebov.onemicr.service.impl.EmployeeServiceImpl;
+import ru.yastrebov.onemicr.service.EmployeeService;
 
 import java.util.List;
 import java.util.UUID;
@@ -13,30 +13,30 @@ import java.util.UUID;
 @RequestMapping("/employee")
 public class EmployeeController {
 
-    private final EmployeeServiceImpl employeeServiceImpl;
+    private final EmployeeService employeeService;
 
     @GetMapping
     public List<EmployeeDto> getAll() {
-        return employeeServiceImpl.getAll();
+        return employeeService.getAll();
     }
 
     @GetMapping("/{id}")
     public EmployeeDto getEmployeeById(@PathVariable UUID id) {
-        return employeeServiceImpl.getEmployeeById(id);
+        return employeeService.getEmployeeById(id);
     }
 
     @PostMapping
     public EmployeeDto create(@RequestBody EmployeeDto employeeDto) {
-        return employeeServiceImpl.create(employeeDto);
+        return employeeService.create(employeeDto);
     }
 
     @PatchMapping("/{id}")
     public EmployeeDto updateByID(@RequestBody EmployeeDto employeeDto, @PathVariable UUID id) {
-        return employeeServiceImpl.updateById(employeeDto, id);
+        return employeeService.updateById(employeeDto, id);
     }
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable UUID id) {
-        employeeServiceImpl.deleteEmployeeById(id);
+        employeeService.deleteEmployeeById(id);
     }
 }
