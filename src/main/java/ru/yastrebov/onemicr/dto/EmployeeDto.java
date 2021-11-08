@@ -18,9 +18,9 @@ public class EmployeeDto {
     private UUID id;
     private String firstName;
     private String lastName;
-    private  Integer age;
-    private  Double experience;
-    private  Position position;
+    private Integer age;
+    private Double experience;
+    private Position position;
     private Project project;
     private LocalDate hireDate;
     private Gender gender;
