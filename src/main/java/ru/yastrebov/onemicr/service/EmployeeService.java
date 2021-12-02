@@ -12,7 +12,7 @@ public interface EmployeeService {
 
     EmployeeDto create(EmployeeDto employeeDto);
 
-    EmployeeDto updateById(final EmployeeDto employeeDTO, final UUID id);
+    EmployeeDto updateById(final EmployeeDto employeeDto, final UUID id);
 
     void deleteEmployeeById(final UUID id);
 }
