@@ -1,7 +1,11 @@
 package ru.yastrebov.onemicr.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.validation.annotation.Validated;
 import ru.yastrebov.onemicr.model.enums.Gender;
 import ru.yastrebov.onemicr.model.enums.Position;
 import ru.yastrebov.onemicr.model.enums.Project;
@@ -10,9 +14,13 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.UUID;
 
+@Data
+@Builder(toBuilder = true)
+@Validated
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "employee")
-@Data
 public class Employee {
 
     @Id
@@ -46,8 +54,7 @@ public class Employee {
     @Column(name = "gender", nullable = false, length = 100)
     @Enumerated(EnumType.STRING)
     private Gender gender;
-
- }
+}
 
 
 

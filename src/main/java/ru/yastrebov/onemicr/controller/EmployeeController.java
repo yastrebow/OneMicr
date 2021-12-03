@@ -31,7 +31,7 @@ public class EmployeeController {
     }
 
     @PatchMapping("/{id}")
-    public EmployeeDto updateByID(@RequestBody EmployeeDto employeeDto, @PathVariable UUID id) {
+    public EmployeeDto updateById(@RequestBody EmployeeDto employeeDto, @PathVariable UUID id) {
         return employeeService.updateById(employeeDto, id);
     }
 
