@@ -37,7 +37,7 @@ public class EmployeeServiceImplTest {
     @Mock
     private EmployeeMapper mapper;
 
-    @InjectMocks //используем аннотацию @InjectMocks для создания mock объектов
+    @InjectMocks
     private EmployeeServiceImpl service;
     private Employee employee1;
     private Employee employee2;
@@ -109,7 +109,7 @@ public class EmployeeServiceImplTest {
         assertNotNull(getAllList);
         assertEquals(employeeList.get(0).getAge(), getAllList.get(0).getAge());
         verify(repository, times(1)).findAll();
-        verify(mapper, times(employeeList.size())).employeeToDto(any()); // надо разобраться по другим методам
+        verify(mapper, times(employeeList.size())).employeeToDto(any());
     }
 
     @Test

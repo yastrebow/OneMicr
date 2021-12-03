@@ -43,20 +43,18 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public EmployeeDto updateById(EmployeeDto employeeDto, UUID id) {
 
-        //            log.info("Method updateEmployee in DefaultEmployeeServiceImpl update employee with id={}", id);
-        final Employee updatedEmployee = employeeRepository.findById(id) //находим по id сущность для обновления
+        final Employee updatedEmployee = employeeRepository.findById(id)
                 .orElseThrow(EntityNotFoundException::new);
 
-        mapper.updateFromDtoToEntity(employeeDto, updatedEmployee);//маппим ДТО в Эмплоии???
-        final Employee savedEmployee = employeeRepository.save(updatedEmployee);//обновляемая сущность с сохраненными изменениями
-        final EmployeeDto updatedEmployeeDto = mapper.employeeToDto(savedEmployee); //обновленная ДТО-шка
+        mapper.updateFromDtoToEntity(employeeDto, updatedEmployee);
+        final Employee savedEmployee = employeeRepository.save(updatedEmployee);
+        final EmployeeDto updatedEmployeeDto = mapper.employeeToDto(savedEmployee);
 
         return updatedEmployeeDto;
     }
 
     @Override
     public void deleteEmployeeById(final UUID id) {
-//            log.info("Method deleteEmployeeById in DefaultEmployeeServiceImpl delete project by id={}", id);
 
         final Employee employeeForDelete = employeeRepository.findById(id)
                 .orElseThrow(EntityNotFoundException::new);
@@ -64,8 +62,5 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeRepository.delete(employeeForDelete);
 
         final EmployeeDto deletedEmployeeDTO = mapper.employeeToDto(employeeForDelete);
-
-//            sendMessage(createMessage(deletedEmployeeDTO, "deleted"));
-
     }
 }
