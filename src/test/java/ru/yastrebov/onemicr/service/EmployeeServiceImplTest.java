@@ -46,7 +46,6 @@ public class EmployeeServiceImplTest {
 
     @Before
     public void setUp() {
-        service = new EmployeeServiceImpl(repository, mapper);
         employee1 = Employee.builder()
                 .id(id1)
                 .firstName("Bruce")

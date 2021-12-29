@@ -8,9 +8,9 @@ import ru.yastrebov.onemicr.model.Employee;
         builder = @Builder(disableBuilder = true))
 public interface EmployeeMapper {
 
-    EmployeeDto employeeToDto (Employee employee);
+    EmployeeDto employeeToDto(Employee employee);
 
-    Employee dtoToEmployee (EmployeeDto employeeDto);
+    Employee dtoToEmployee(EmployeeDto employeeDto);
 
     @BeanMapping(nullValueMappingStrategy = NullValueMappingStrategy.RETURN_NULL)
     void updateFromDtoToEntity(EmployeeDto employeeDto, @MappingTarget Employee employee);

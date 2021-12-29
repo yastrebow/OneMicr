@@ -10,10 +10,12 @@ public interface EmployeeService {
 
     EmployeeDto getEmployeeById(UUID id);
 
-    EmployeeDto create(EmployeeDto employeeDto);
+    Object create(EmployeeDto employeeDto);
 
     EmployeeDto updateById(final EmployeeDto employeeDto, final UUID id);
 
     void deleteEmployeeById(final UUID id);
+
+    void sendMessage(String message);
 
 }
