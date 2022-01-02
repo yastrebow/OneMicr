@@ -44,17 +44,12 @@ public class EmployeeServiceImpl implements EmployeeService {
     public EmployeeDto create(EmployeeDto employeeDto) {
         Employee savedEmployee = employeeRepository.save(mapper.dtoToEmployee(employeeDto));
 
-        sendMessage("New record was created into Employee DB with those values: "
-                + "id = " + employeeDto.getId()
-                + ", firstName = " + employeeDto.getFirstName()
-                + ", lastName = " + employeeDto.getLastName()
-                + ", age = " + employeeDto.getAge()
-                + ", experience = " + employeeDto.getExperience()
-                + ", position = " + employeeDto.getPosition()
-                + ", project = " + employeeDto.getProject()
-                + ", hireDate = " + employeeDto.getHireDate()
-                + ", gender = " + employeeDto.getGender()
-        );
+        String messageAboutCreating = String.format("New record was created into Employee DB with those values: id = %s, firstName = %s, lastName = %s, age = %d, " +
+                        "experience = %f, position = %s, project = %s, hireDate = %s, gender = %s",
+                employeeDto.getId(), employeeDto.getFirstName(), employeeDto.getLastName(), employeeDto.getAge(), employeeDto.getExperience(),
+                employeeDto.getPosition().toString(), employeeDto.getProject().toString(), employeeDto.getHireDate().toString(), employeeDto.getGender().toString());
+
+        sendMessage(messageAboutCreating);
         return mapper.employeeToDto(savedEmployee);
     }
 
@@ -67,17 +62,13 @@ public class EmployeeServiceImpl implements EmployeeService {
         mapper.updateFromDtoToEntity(employeeDto, updatedEmployee);
         final Employee savedEmployee = employeeRepository.save(updatedEmployee);
 
-        sendMessage("This record was updated into Employee DB with those values: "
-                + "id = " + employeeDto.getId()
-                + ", firstName = " + employeeDto.getFirstName()
-                + ", lastName = " + employeeDto.getLastName()
-                + ", age = " + employeeDto.getAge()
-                + ", experience = " + employeeDto.getExperience()
-                + ", position = " + employeeDto.getPosition()
-                + ", project = " + employeeDto.getProject()
-                + ", hireDate = " + employeeDto.getHireDate()
-                + ", hireDate = " + employeeDto.getGender()
-        );
+        String messageAboutUpdating = String.format("This record was updated into Employee DB with those values: id = %s, firstName = %s, lastName = %s, age = %d, " +
+                        "experience = %f, position = %s, project = %s, hireDate = %s, gender = %s",
+                employeeDto.getId(), employeeDto.getFirstName(), employeeDto.getLastName(), employeeDto.getAge(), employeeDto.getExperience(),
+                employeeDto.getPosition().toString(), employeeDto.getProject().toString(), employeeDto.getHireDate().toString(), employeeDto.getGender().toString());
+
+        sendMessage(messageAboutUpdating);
+
         return mapper.employeeToDto(savedEmployee);
 
     }
@@ -92,12 +83,16 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         final EmployeeDto deletedEmployeeDTO = mapper.employeeToDto(employeeForDelete);
 
-        sendMessage("The record with id= " + id +" was deleted from Employee DB");
+        String messageAboutDeleting = String.format("The record with was deleted from Employee DB with those values: id = %s, firstName = %s, lastName = %s, age = %d, " +
+                        "experience = %f, position = %s, project = %s, hireDate = %s, gender = %s",
+                employeeForDelete.getId(), employeeForDelete.getFirstName(), employeeForDelete.getLastName(), employeeForDelete.getAge(), employeeForDelete.getExperience(),
+                employeeForDelete.getPosition().toString(), employeeForDelete.getProject().toString(), employeeForDelete.getHireDate().toString(), employeeForDelete.getGender().toString());
+
+        sendMessage(messageAboutDeleting);
 
     }
 
     @Override
-
     public void sendMessage(String message) {
         ListenableFuture<SendResult<String, String>> future =
                 kafkaTemplate.send("employeeDB", message);

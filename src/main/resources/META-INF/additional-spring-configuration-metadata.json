@@ -1,9 +1,0 @@
-{
-  "properties": [
-    {
-      "name": "server.spring.kafka.consumer.bootstrap-servers",
-      "type": "java.lang.String",
-      "description": "Description for server.spring.kafka.consumer.bootstrap-servers."
-    }
-  ]
-}
