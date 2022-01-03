@@ -10,7 +10,7 @@
     <property name="uuid_type" value="RAW(16)" dbms="oracle"/>
 
     <changeSet id="2" author="andrey_ya">
-       <createTable tableName="employee">
+        <createTable tableName="employee">
             <column name="id" type="${uuid_type}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
