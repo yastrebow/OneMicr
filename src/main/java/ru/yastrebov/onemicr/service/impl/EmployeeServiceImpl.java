@@ -73,7 +73,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         final EmployeeDto deletedEmployeeDTO = mapper.employeeToDto(employeeForDelete);
 
-        sendMessage("The record with was deleted from" + createMessageForSending(deletedEmployeeDTO));
+        sendMessage("The record was deleted from" + createMessageForSending(deletedEmployeeDTO));
 
     }
 
