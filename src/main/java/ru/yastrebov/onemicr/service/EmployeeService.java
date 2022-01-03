@@ -10,7 +10,7 @@ public interface EmployeeService {
 
     EmployeeDto getEmployeeById(UUID id);
 
-    Object create(EmployeeDto employeeDto);
+    EmployeeDto create(EmployeeDto employeeDto);
 
     EmployeeDto updateById(final EmployeeDto employeeDto, final UUID id);
 

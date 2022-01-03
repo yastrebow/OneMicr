@@ -44,12 +44,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public EmployeeDto create(EmployeeDto employeeDto) {
         Employee savedEmployee = employeeRepository.save(mapper.dtoToEmployee(employeeDto));
 
-        String messageAboutCreating = String.format("New record was created into Employee DB with those values: id = %s, firstName = %s, lastName = %s, age = %d, " +
-                        "experience = %f, position = %s, project = %s, hireDate = %s, gender = %s",
-                employeeDto.getId(), employeeDto.getFirstName(), employeeDto.getLastName(), employeeDto.getAge(), employeeDto.getExperience(),
-                employeeDto.getPosition().toString(), employeeDto.getProject().toString(), employeeDto.getHireDate().toString(), employeeDto.getGender().toString());
-
-        sendMessage(messageAboutCreating);
+        sendMessage("New record was created into" + createMessageForSending(employeeDto));
         return mapper.employeeToDto(savedEmployee);
     }
 
@@ -62,12 +57,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         mapper.updateFromDtoToEntity(employeeDto, updatedEmployee);
         final Employee savedEmployee = employeeRepository.save(updatedEmployee);
 
-        String messageAboutUpdating = String.format("This record was updated into Employee DB with those values: id = %s, firstName = %s, lastName = %s, age = %d, " +
-                        "experience = %f, position = %s, project = %s, hireDate = %s, gender = %s",
-                employeeDto.getId(), employeeDto.getFirstName(), employeeDto.getLastName(), employeeDto.getAge(), employeeDto.getExperience(),
-                employeeDto.getPosition().toString(), employeeDto.getProject().toString(), employeeDto.getHireDate().toString(), employeeDto.getGender().toString());
-
-        sendMessage(messageAboutUpdating);
+        sendMessage("This record was updated into" + createMessageForSending(employeeDto));
 
         return mapper.employeeToDto(savedEmployee);
 
@@ -83,12 +73,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         final EmployeeDto deletedEmployeeDTO = mapper.employeeToDto(employeeForDelete);
 
-        String messageAboutDeleting = String.format("The record with was deleted from Employee DB with those values: id = %s, firstName = %s, lastName = %s, age = %d, " +
-                        "experience = %f, position = %s, project = %s, hireDate = %s, gender = %s",
-                employeeForDelete.getId(), employeeForDelete.getFirstName(), employeeForDelete.getLastName(), employeeForDelete.getAge(), employeeForDelete.getExperience(),
-                employeeForDelete.getPosition().toString(), employeeForDelete.getProject().toString(), employeeForDelete.getHireDate().toString(), employeeForDelete.getGender().toString());
-
-        sendMessage(messageAboutDeleting);
+        sendMessage("The record with was deleted from" + createMessageForSending(deletedEmployeeDTO));
 
     }
 
@@ -111,5 +96,14 @@ public class EmployeeServiceImpl implements EmployeeService {
                         + message + "] due to: " + exception.getMessage());
             }
         });
+
+    }
+
+    public String createMessageForSending(EmployeeDto employeeDto) {
+
+        return String.format(" Employee DB with those values: id = %s, firstName = %s, lastName = %s, age = %d, " +
+                        "experience = %f, position = %s, project = %s, hireDate = %s, gender = %s",
+                employeeDto.getId(), employeeDto.getFirstName(), employeeDto.getLastName(), employeeDto.getAge(), employeeDto.getExperience(),
+                employeeDto.getPosition(), employeeDto.getProject(), employeeDto.getHireDate(), employeeDto.getGender());
     }
 }
