@@ -39,60 +39,56 @@ public class EmployeeServiceImplTest {
 
     @InjectMocks
     private EmployeeServiceImpl service;
-    private Employee employee1;
-    private Employee employee2;
-    private EmployeeDto dto1;
-    private EmployeeDto dto2;
+
+    private final Employee employee1 = Employee.builder()
+            .id(id1)
+            .firstName("Bruce")
+            .lastName("Willis")
+            .age(65)
+            .experience(45.0)
+            .position(Position.DIRECTOR)
+            .project(Project.PROJECT1)
+            .hireDate(LocalDate.now())
+            .gender(Gender.MALE)
+            .build();;
+    private final Employee employee2 = Employee.builder()
+            .id(id2)
+            .firstName("Demi")
+            .lastName("Moore")
+            .age(62)
+            .experience(42.0)
+            .position(Position.MANAGER)
+            .project(Project.PROJECT2)
+            .hireDate(LocalDate.now())
+            .gender(Gender.FEMALE)
+            .build();
+    private final EmployeeDto dto1 = EmployeeDto.builder()
+            .id(id1)
+            .firstName("Bruce")
+            .lastName("Willis")
+            .age(65)
+            .experience(45.0)
+            .position(Position.DIRECTOR)
+            .project(Project.PROJECT1)
+            .hireDate(LocalDate.now())
+            .gender(Gender.MALE)
+            .build();
+    private final EmployeeDto dto2 = EmployeeDto.builder()
+            .id(id2)
+            .firstName("Demi")
+            .lastName("Moore")
+            .age(62)
+            .experience(42.0)
+            .position(Position.MANAGER)
+            .project(Project.PROJECT2)
+            .hireDate(LocalDate.now())
+            .gender(Gender.FEMALE)
+            .build();
 
     @Before
     public void setUp() {
-        employee1 = Employee.builder()
-                .id(id1)
-                .firstName("Bruce")
-                .lastName("Willis")
-                .age(65)
-                .experience(45.0)
-                .position(Position.DIRECTOR)
-                .project(Project.PROJECT1)
-                .hireDate(LocalDate.now())
-                .gender(Gender.MALE)
-                .build();
+        when(mapper.employeeToDto(employee1)).thenReturn(dto1);
 
-        dto1 = EmployeeDto.builder()
-                .id(id1)
-                .firstName("Bruce")
-                .lastName("Willis")
-                .age(65)
-                .experience(45.0)
-                .position(Position.DIRECTOR)
-                .project(Project.PROJECT1)
-                .hireDate(LocalDate.now())
-                .gender(Gender.MALE)
-                .build();
-
-        employee2 = Employee.builder()
-                .id(id2)
-                .firstName("Demi")
-                .lastName("Moore")
-                .age(62)
-                .experience(42.0)
-                .position(Position.MANAGER)
-                .project(Project.PROJECT2)
-                .hireDate(LocalDate.now())
-                .gender(Gender.FEMALE)
-                .build();
-
-        dto2 = EmployeeDto.builder()
-                .id(id2)
-                .firstName("Demi")
-                .lastName("Moore")
-                .age(62)
-                .experience(42.0)
-                .position(Position.MANAGER)
-                .project(Project.PROJECT2)
-                .hireDate(LocalDate.now())
-                .gender(Gender.FEMALE)
-                .build();
     }
 
     @Test
@@ -100,7 +96,6 @@ public class EmployeeServiceImplTest {
         List<Employee> employeeList = List.of(employee1, employee2);
 
         when(repository.findAll()).thenReturn(employeeList);
-        when(mapper.employeeToDto(employee1)).thenReturn(dto1);
         when(mapper.employeeToDto(employee2)).thenReturn(dto2);
 
         List<EmployeeDto> getAllList = service.getAll();
@@ -114,7 +109,6 @@ public class EmployeeServiceImplTest {
     @Test
     public void getEmployeeDtoByIdWorkCorrectlyTest() {
         when(repository.findById(id1)).thenReturn(Optional.of(employee1));
-        when(mapper.employeeToDto(employee1)).thenReturn(dto1);
 
         EmployeeDto getEmployeeDtoById = service.getEmployeeById(id1);
 
@@ -126,7 +120,6 @@ public class EmployeeServiceImplTest {
     @Test
     public void createDtoWorkCorrectlyTest() {
         when(repository.save(employee1)).thenReturn(employee1);
-        when(mapper.employeeToDto(employee1)).thenReturn(dto1);
         when(mapper.dtoToEmployee(dto1)).thenReturn(employee1);
 
         EmployeeDto createdDto = service.create(dto1);
@@ -140,7 +133,6 @@ public class EmployeeServiceImplTest {
     public void updateByIdReturnDtoWorkCorrectlyTest() {
         when(repository.findById(id1)).thenReturn(Optional.of(employee1));
         when(repository.save(employee1)).thenReturn(employee1);
-        when(mapper.employeeToDto(employee1)).thenReturn(dto1);
 
         EmployeeDto updatedDtoById = service.updateById(dto1, id1);
 

@@ -1,6 +1,5 @@
 package ru.yastrebov.onemicr.service.impl;
 
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
@@ -12,7 +11,6 @@ import ru.yastrebov.onemicr.model.Employee;
 import ru.yastrebov.onemicr.mupstruct.EmployeeMapper;
 import ru.yastrebov.onemicr.repository.EmployeeRepository;
 import ru.yastrebov.onemicr.service.EmployeeService;
-
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.UUID;
