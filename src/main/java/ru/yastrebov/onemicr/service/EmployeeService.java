@@ -16,6 +16,4 @@ public interface EmployeeService {
 
     void deleteEmployeeById(final UUID id);
 
-    void sendMessage(String message);
-
 }

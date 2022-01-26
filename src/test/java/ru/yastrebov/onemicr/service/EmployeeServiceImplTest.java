@@ -5,8 +5,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 import ru.yastrebov.onemicr.dto.EmployeeDto;
+import ru.yastrebov.onemicr.kafka.KafkaProducer;
 import ru.yastrebov.onemicr.model.Employee;
 import ru.yastrebov.onemicr.model.enums.Gender;
 import ru.yastrebov.onemicr.model.enums.Position;
@@ -23,7 +25,11 @@ import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class EmployeeServiceImplTest {
@@ -37,7 +43,11 @@ public class EmployeeServiceImplTest {
     @Mock
     private EmployeeMapper mapper;
 
+    @Mock
+    private KafkaProducer kafkaProducer;
+
     @InjectMocks
+    @Spy
     private EmployeeServiceImpl service;
 
     private final Employee employee1 = Employee.builder()
@@ -50,7 +60,8 @@ public class EmployeeServiceImplTest {
             .project(Project.PROJECT1)
             .hireDate(LocalDate.now())
             .gender(Gender.MALE)
-            .build();;
+            .build();
+
     private final Employee employee2 = Employee.builder()
             .id(id2)
             .firstName("Demi")
@@ -88,7 +99,6 @@ public class EmployeeServiceImplTest {
     @Before
     public void setUp() {
         when(mapper.employeeToDto(employee1)).thenReturn(dto1);
-
     }
 
     @Test
@@ -121,6 +131,7 @@ public class EmployeeServiceImplTest {
     public void createDtoWorkCorrectlyTest() {
         when(repository.save(employee1)).thenReturn(employee1);
         when(mapper.dtoToEmployee(dto1)).thenReturn(employee1);
+        when(kafkaProducer.sendMessage(any())).thenReturn(any(), ("String by matcher"));
 
         EmployeeDto createdDto = service.create(dto1);
 
@@ -133,6 +144,7 @@ public class EmployeeServiceImplTest {
     public void updateByIdReturnDtoWorkCorrectlyTest() {
         when(repository.findById(id1)).thenReturn(Optional.of(employee1));
         when(repository.save(employee1)).thenReturn(employee1);
+        when(kafkaProducer.sendMessage(any())).thenReturn(any(), eq("String by matcher"));
 
         EmployeeDto updatedDtoById = service.updateById(dto1, id1);
 
@@ -144,6 +156,8 @@ public class EmployeeServiceImplTest {
     @Test
     public void deleteEmployeeByIdWorkCorrectlyTest() {
         when((repository.findById(id1))).thenReturn(Optional.of(employee1));
+        when(kafkaProducer.sendMessage(any())).thenReturn(any(), ("String by matcher"));
+
         service.deleteEmployeeById(id1);
         verify(repository, times(1)).findById(id1);
     }

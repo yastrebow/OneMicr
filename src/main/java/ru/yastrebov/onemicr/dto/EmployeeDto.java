@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import ru.yastrebov.onemicr.model.enums.Gender;
 import ru.yastrebov.onemicr.model.enums.Position;
 import ru.yastrebov.onemicr.model.enums.Project;
-
 import java.time.LocalDate;
 import java.util.UUID;
 
