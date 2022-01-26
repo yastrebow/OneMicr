@@ -5,7 +5,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 import ru.yastrebov.onemicr.dto.EmployeeDto;
 import ru.yastrebov.onemicr.kafka.KafkaProducer;
@@ -47,7 +46,6 @@ public class EmployeeServiceImplTest {
     private KafkaProducer kafkaProducer;
 
     @InjectMocks
-    @Spy
     private EmployeeServiceImpl service;
 
     private final Employee employee1 = Employee.builder()
