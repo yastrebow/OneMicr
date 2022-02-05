@@ -25,3 +25,8 @@ spring:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.apache.kafka.common.serialization.StringSerializer
 
+logging:
+  level:
+    ROOT: INFO
+    ru.yastrebov.monitoring: INFO
+    org.springframework: INFO

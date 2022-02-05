@@ -1,5 +1,6 @@
 package ru.yastrebov.onemicr.kafka;
 
+import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
@@ -9,12 +10,13 @@ import org.springframework.util.concurrent.ListenableFutureCallback;
 import ru.yastrebov.onemicr.dto.EmployeeDto;
 
 @Component
+@RequiredArgsConstructor
 public class KafkaProducer {
+    private final KafkaTemplate<String, String> kafkaTemplate;
 
     public String sendMessage(String message) {
-        KafkaTemplate kafkaTemplate = null;
 
-        ListenableFuture<SendResult<String, String>> future =
+               ListenableFuture<SendResult<String, String>> future =
                 kafkaTemplate.send("employeeDB", message);
 
         future.addCallback(new ListenableFutureCallback<>() {
