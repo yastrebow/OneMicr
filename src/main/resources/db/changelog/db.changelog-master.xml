@@ -17,7 +17,7 @@
     </changeSet>
 
     <!--подключаем файл, содержащий требуемые изменения; relativeToChangelogFile - сохранение относительного пути к файлу-->
-    <include file="db/changelog/v-1.0/db.changelog-v.1.0.xml" relativeToChangelogFile="true"/>
+    <include file="v-1.0/db.changelog-v.1.0.xml" relativeToChangelogFile="true"/>
 
     <changeSet id="1" author="andrey_ya">
         <!--tag - метка БД v.1.0, к которой мы можем откатиться-->
