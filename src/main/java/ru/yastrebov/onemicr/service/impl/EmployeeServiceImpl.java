@@ -1,13 +1,10 @@
 package ru.yastrebov.onemicr.service.impl;
 
-
 import lombok.RequiredArgsConstructor;
-import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.kafka.support.SendResult;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.util.concurrent.ListenableFuture;
-import org.springframework.util.concurrent.ListenableFutureCallback;
 import ru.yastrebov.onemicr.dto.EmployeeDto;
+import ru.yastrebov.onemicr.kafka.KafkaProducer;
 import ru.yastrebov.onemicr.model.Employee;
 import ru.yastrebov.onemicr.mupstruct.EmployeeMapper;
 import ru.yastrebov.onemicr.repository.EmployeeRepository;
@@ -20,90 +17,65 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;
     private final EmployeeMapper mapper;
-    private final KafkaTemplate<String, String> kafkaTemplate;
+    private final KafkaProducer kafkaProducer;
 
     @Override
     public List<EmployeeDto> getAll() {
+        log.debug("getAll() - start");
         List<Employee> employeeList = employeeRepository.findAll();
+        log.debug("getAll() - end");
+
         return employeeList.stream()
                 .map(mapper::employeeToDto).collect(Collectors.toList());
     }
 
     @Override
     public EmployeeDto getEmployeeById(UUID id) {
+        log.debug("getEmployeeById() - start, id = {}", id);
         Employee getEmployee = employeeRepository.findById(id)
                 .orElseThrow(EntityNotFoundException::new);
-        return mapper.employeeToDto(getEmployee);
+        EmployeeDto employeeDto = mapper.employeeToDto(getEmployee);
+        log.debug("getEmployeeById() - end, employeeDto = {}", employeeDto);
+
+        return employeeDto;
     }
 
     @Override
     public EmployeeDto create(EmployeeDto employeeDto) {
-        Employee savedEmployee = employeeRepository.save(mapper.dtoToEmployee(employeeDto));
+        log.debug("create() - start, employeeDto = {}", employeeDto);
+        final Employee savedEmployee = employeeRepository.save(mapper.dtoToEmployee(employeeDto));
+        kafkaProducer.sendMessage("New record was created into " + kafkaProducer.createMessageForSending(employeeDto));
+        log.debug("create() - end, employeeDto = {} created", employeeDto);
 
-        sendMessage("New record was created into" + createMessageForSending(employeeDto));
         return mapper.employeeToDto(savedEmployee);
     }
 
     @Override
     public EmployeeDto updateById(EmployeeDto employeeDto, UUID id) {
-
+        log.debug("updateById() - start, employeeDto = {}, id = {}", employeeDto, id);
         final Employee updatedEmployee = employeeRepository.findById(id)
                 .orElseThrow(EntityNotFoundException::new);
-
         mapper.updateFromDtoToEntity(employeeDto, updatedEmployee);
         final Employee savedEmployee = employeeRepository.save(updatedEmployee);
-
-        sendMessage("This record was updated into" + createMessageForSending(employeeDto));
+        log.debug("updateById() - end, employeeDto = {}, id = {} was update", employeeDto, id);
+        kafkaProducer.sendMessage("This record was updated into " + kafkaProducer.createMessageForSending(employeeDto));
 
         return mapper.employeeToDto(savedEmployee);
-
     }
 
     @Override
     public void deleteEmployeeById(final UUID id) {
-
+        log.debug("deleteEmployeeById() - start, id = {}", id);
         final Employee employeeForDelete = employeeRepository.findById(id)
                 .orElseThrow(EntityNotFoundException::new);
-
         employeeRepository.delete(employeeForDelete);
-
         final EmployeeDto deletedEmployeeDTO = mapper.employeeToDto(employeeForDelete);
-
-        sendMessage("The record was deleted from" + createMessageForSending(deletedEmployeeDTO));
-
-    }
-
-    @Override
-    public void sendMessage(String message) {
-        ListenableFuture<SendResult<String, String>> future =
-                kafkaTemplate.send("employeeDB", message);
-
-        future.addCallback(new ListenableFutureCallback<>() {
-
-            @Override
-            public void onSuccess(SendResult<String, String> result) {
-                System.out.println("Sent message=[" + message
-                        + "] with offset=[" + result.getRecordMetadata().offset() + "]");
-            }
-
-            @Override
-            public void onFailure(Throwable exception) {
-                System.out.println("Unable to sent message=["
-                        + message + "] due to: " + exception.getMessage());
-            }
-        });
-
-    }
-
-    public String createMessageForSending(EmployeeDto employeeDto) {
-
-        return String.format(" Employee DB with those values: id = %s, firstName = %s, lastName = %s, age = %d, " +
-                        "experience = %f, position = %s, project = %s, hireDate = %s, gender = %s",
-                employeeDto.getId(), employeeDto.getFirstName(), employeeDto.getLastName(), employeeDto.getAge(), employeeDto.getExperience(),
-                employeeDto.getPosition(), employeeDto.getProject(), employeeDto.getHireDate(), employeeDto.getGender());
+        log.debug("deleteEmployeeById() - end, record id = {} deleted", id);
+        kafkaProducer.sendMessage("The record was deleted from " + kafkaProducer.createMessageForSending(deletedEmployeeDTO));
     }
 }
