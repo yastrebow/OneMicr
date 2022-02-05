@@ -24,7 +24,6 @@ import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -142,7 +141,7 @@ public class EmployeeServiceImplTest {
     public void updateByIdReturnDtoWorkCorrectlyTest() {
         when(repository.findById(id1)).thenReturn(Optional.of(employee1));
         when(repository.save(employee1)).thenReturn(employee1);
-        when(kafkaProducer.sendMessage(any())).thenReturn(any(), eq("String by matcher"));
+        when(kafkaProducer.sendMessage(any())).thenReturn(any(), "String by matcher");
 
         EmployeeDto updatedDtoById = service.updateById(dto1, id1);
 
