@@ -28,5 +28,5 @@ spring:
 logging:
   level:
     ROOT: INFO
-    ru.yastrebov.monitoring: INFO
+    ru.yastrebov.onemicr: INFO
     org.springframework: INFO
